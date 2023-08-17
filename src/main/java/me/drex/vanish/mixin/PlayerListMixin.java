@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.drex.vanish.api.VanishAPI;
+import me.drex.vanish.config.ConfigManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
@@ -29,6 +30,10 @@ public abstract class PlayerListMixin {
             )
     )
     public void vanish_hideJoinMessage(PlayerList playerList, Component component, boolean bl, Operation<Void> original, Connection connection, ServerPlayer player) {
+        if(ConfigManager.vanish().hideOpsJoinQuitMessages && player.hasPermissions(1)) {
+            return;
+        }
+
         if (VanishAPI.isVanished(player)) {
             VanishAPI.broadcastHiddenMessage(player, component);
         } else {

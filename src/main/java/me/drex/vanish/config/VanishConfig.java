@@ -18,4 +18,6 @@ public class VanishConfig {
     @Comment("Hide vanished players from entities, prevents hostile entities from targeting players, and more")
     public boolean hideFromEntities = true;
 
+    @Comment("Hide join/quit messages for OPs players")
+    public boolean hideOpsJoinQuitMessages = false;
 }

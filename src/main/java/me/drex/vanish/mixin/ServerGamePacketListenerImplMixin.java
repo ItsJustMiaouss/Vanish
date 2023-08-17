@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.drex.vanish.api.VanishAPI;
+import me.drex.vanish.config.ConfigManager;
 import net.minecraft.network.PacketSendListener;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
@@ -75,6 +76,10 @@ public abstract class ServerGamePacketListenerImplMixin {
             )
     )
     public void vanish_hideLeaveMessage(PlayerList playerList, Component component, boolean bl, Operation<Void> original) {
+        if(ConfigManager.vanish().hideOpsJoinQuitMessages && player.hasPermissions(1)) {
+            return;
+        }
+
         if (VanishAPI.isVanished(this.player)) {
             VanishAPI.broadcastHiddenMessage(this.player, component);
         } else {
